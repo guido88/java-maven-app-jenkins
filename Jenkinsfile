@@ -9,11 +9,26 @@ pipeline {
 
     stages {
 
+        stage('test') {
+                   when {
+                    expression {
+                        BRANCH_NAME != 'master'
+                       }
+                    }
+
+                    steps {
+
+                      script{
+                        echo "This runs only on test branch!!"
+                      }
+                    }
+                }
+
         stage('build') {
            when {
             expression {
                 BRANCH_NAME == 'master'
-            }
+               }
             }
 
             steps {
@@ -24,7 +39,11 @@ pipeline {
             }
         }
         stage('build new Docker Image ') {
-
+            when {
+             expression {
+                BRANCH_NAME == 'master'
+               }
+            }
 
             steps {
 
@@ -35,7 +54,11 @@ pipeline {
             }
         }
         stage('deploy app') {
-
+             when {
+                 expression {
+                       BRANCH_NAME == 'master'
+                   }
+              }
 
             steps {
 
