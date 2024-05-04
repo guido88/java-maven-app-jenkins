@@ -20,7 +20,7 @@ pipeline {
               }
             }
         }
-        stage('build Image') {
+        stage('build new Image ') {
 
 
             steps {
@@ -31,7 +31,7 @@ pipeline {
 
             }
         }
-        stage('deploy') {
+        stage('deploy app') {
 
 
             steps {
