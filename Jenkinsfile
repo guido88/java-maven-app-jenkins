@@ -20,7 +20,7 @@ pipeline {
               }
             }
         }
-        stage('build new Image ') {
+        stage('build new Docker Image ') {
 
 
             steps {
