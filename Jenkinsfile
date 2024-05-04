@@ -3,8 +3,11 @@
 pipeline {
     agent any
 
-    stages {
+    tools {
+     maven 'Maven'
+    }
 
+    stages {
 
         stage('build') {
            when {
