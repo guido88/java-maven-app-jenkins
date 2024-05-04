@@ -20,7 +20,7 @@ pipeline {
               }
             }
         }
-        stage('build Image') {
+        stage('build new Image ') {
 
 
             steps {
