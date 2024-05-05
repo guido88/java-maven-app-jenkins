@@ -44,7 +44,7 @@ pipeline {
               }
             }
         }
-        stage('build new Docker Image ') {
+        stage('Build new Docker Image ') {
             when {
              expression {
                 BRANCH_NAME == 'master'
