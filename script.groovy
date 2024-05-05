@@ -13,7 +13,7 @@ def buildImage() {
 } 
 
 def deployApp() {
-    echo '-.'
+    echo 'tesst'
 } 
 
 return this
