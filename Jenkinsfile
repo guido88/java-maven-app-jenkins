@@ -19,7 +19,7 @@ pipeline {
                     steps {
 
                       script{
-                        echo "This runs only on test branch!!"
+                        echo "This runs only on test!!"
                       }
                     }
                 }
