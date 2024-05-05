@@ -53,7 +53,7 @@ pipeline {
 
             }
         }
-        stage('deploy app') {
+        stage('Deploy App') {
              when {
                  expression {
                        BRANCH_NAME == 'master'
