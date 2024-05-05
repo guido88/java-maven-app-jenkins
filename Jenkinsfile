@@ -3,46 +3,92 @@
 pipeline {
     agent any
 
+    tools {
+     maven 'Maven'
+    }
+
     stages {
 
+        stage('test') {
+                   when {
+                    expression {
+                        BRANCH_NAME != 'master'
+                       }
+                    }
+
+                    steps {
+
+                      script{
+                        echo "This runs only on test!!"
+                      }
+                    }
+                }
 
         stage('build') {
            when {
             expression {
                 BRANCH_NAME == 'master'
-            }
+               }
             }
 
             steps {
 
               script{
+
                 buildJar()
+
+                def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                def version = matcher[0][1]
+                env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+
               }
             }
         }
-        stage('build new Image ') {
-
+        stage('Build new Docker Image ') {
+            when {
+             expression {
+                BRANCH_NAME == 'master'
+               }
+            }
 
             steps {
 
               script{
-                   buildImage()
+                   buildImage "$IMAGE_NAME"
                }
 
             }
         }
-        stage('deploy app') {
-
+        stage('Deploy App') {
+             when {
+                 expression {
+                       BRANCH_NAME == 'master'
+                   }
+              }
 
             steps {
 
               script{
-                   deployApp()
+                   deployApp "$IMAGE_NAME"
                }
 
             }
         }
+        stage('commit version update') {
+             when {
+                 expression {
+                       BRANCH_NAME == 'master'
+                   }
+              }
 
+            steps {
+
+              script{
+                   commitVersion()
+               }
+
+            }
+        }
     }
 
 }
