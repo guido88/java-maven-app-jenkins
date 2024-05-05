@@ -74,7 +74,21 @@ pipeline {
 
             }
         }
+        stage('commit version update') {
+             when {
+                 expression {
+                       BRANCH_NAME == 'master'
+                   }
+              }
 
+            steps {
+
+              script{
+                   commitVersion()
+               }
+
+            }
+        }
     }
 
 }
