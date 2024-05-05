@@ -54,7 +54,7 @@ pipeline {
             steps {
 
               script{
-                   buildImage $IMAGE_NAME
+                   buildImage "$IMAGE_NAME"
                }
 
             }
@@ -69,7 +69,7 @@ pipeline {
             steps {
 
               script{
-                   deployApp $IMAGE_NAME
+                   deployApp "$IMAGE_NAME"
                }
 
             }
