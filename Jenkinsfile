@@ -34,7 +34,12 @@ pipeline {
             steps {
 
               script{
-                buildJar()
+
+                def matcher = read('pom.xml')=~'<version>(.+)</version>'
+                def version = matcher[0][1]
+                env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+
+                buildJar $IMAGE_NAME
               }
             }
         }
@@ -48,7 +53,7 @@ pipeline {
             steps {
 
               script{
-                   buildImage()
+                   buildImage $IMAGE_NAME
                }
 
             }
