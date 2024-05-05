@@ -69,7 +69,7 @@ pipeline {
             steps {
 
               script{
-                   deployApp()
+                   deployApp $IMAGE_NAME
                }
 
             }
