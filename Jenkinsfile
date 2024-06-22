@@ -35,8 +35,7 @@ pipeline {
             steps {
 
               script{
-                   //deployApp "$IMAGE_NAME"
-                   echo "Deploying app..."
+                   deployApp "$IMAGE_NAME"
                }
             }
         }
