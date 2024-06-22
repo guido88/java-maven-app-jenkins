@@ -28,7 +28,6 @@ pipeline {
               script{
                    buildImage "$IMAGE_NAME"
                }
-
             }
         }
         stage('Deploy App') {
@@ -36,9 +35,8 @@ pipeline {
             steps {
 
               script{
-                   deployApp "$IMAGE_NAME"
+                   //deployApp "$IMAGE_NAME"
                }
-
             }
         }
         stage('commit version update') {
@@ -48,9 +46,7 @@ pipeline {
               script{
                    commitVersion()
                }
-
             }
         }
     }
-
 }
