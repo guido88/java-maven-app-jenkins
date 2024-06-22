@@ -36,6 +36,7 @@ pipeline {
 
               script{
                    //deployApp "$IMAGE_NAME"
+                   echo "Deploying app..."
                }
             }
         }
