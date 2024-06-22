@@ -8,48 +8,20 @@ pipeline {
     }
 
     stages {
-
-        stage('test') {
-                   when {
-                    expression {
-                        BRANCH_NAME != 'master'
-                       }
-                    }
-
-                    steps {
-
-                      script{
-                        echo "This runs only on test!!"
-                      }
-                    }
-                }
-
         stage('build') {
-           when {
-            expression {
-                BRANCH_NAME == 'master'
-               }
-            }
 
             steps {
 
               script{
 
                 buildJar()
-
                 def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def version = matcher[0][1]
                 env.IMAGE_NAME = "$version-$BUILD_NUMBER"
-
               }
             }
         }
-        stage('Build new Docker Image ') {
-            when {
-             expression {
-                BRANCH_NAME == 'master'
-               }
-            }
+        stage('Build new Docker Image') {
 
             steps {
 
@@ -60,11 +32,6 @@ pipeline {
             }
         }
         stage('Deploy App') {
-             when {
-                 expression {
-                       BRANCH_NAME == 'master'
-                   }
-              }
 
             steps {
 
@@ -75,11 +42,6 @@ pipeline {
             }
         }
         stage('commit version update') {
-             when {
-                 expression {
-                       BRANCH_NAME == 'master'
-                   }
-              }
 
             steps {
 
