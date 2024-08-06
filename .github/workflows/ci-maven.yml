@@ -8,10 +8,14 @@
 
 name: Java CI with Maven
 
+
 on:
   push:
     branches: [ "master" ]
- 
+  
+permissions:
+  contents: write  
+
 jobs:
   build:
     #if: github.actor != 'github-actions[bot]'
