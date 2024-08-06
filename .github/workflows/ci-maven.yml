@@ -28,10 +28,11 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
       
- #   - name: Build & push Docker image
-  #    uses: mr-smithers-excellent/docker-build-push@v3
- #     with:
-  #      image: docker-hub-repo/image-name
-  #      registry: docker.io
-  #      username: ${{ secrets.DOCKER_USERNAME }}
-    #    password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v3
+      with:
+        image: guido88/privaterepo
+        tag: my-app
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
