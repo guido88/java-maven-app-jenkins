@@ -54,4 +54,4 @@ jobs:
           git commit -m "Bump version to ${{ steps.bump_version.outputs.new_version }}"
           git push
       env:
-          GITHUB_TOKEN: ${{ secrets.GTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
