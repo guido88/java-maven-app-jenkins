@@ -20,7 +20,11 @@ jobs:
   build:
     #if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-
+    env:
+      EC2_SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
+      EC2_URL: ${{ secrets.EC2_PUBLIC_IP }}
+      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+      
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -75,4 +79,19 @@ jobs:
           chmod +x /home/ec2-user/script.sh
           bash ./script.sh ${{ steps.bump_version.outputs.new_version }}     
         EOF
-    
+
+  
+    - name: Setup SSH for EC2
+      uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
+      with:
+          EC2_SSH_PRIVATE_KEY: $EC2_SSH_PRIVATE_KEY
+          EC2_URL: $EC2_URL
+    # then you can run commands/scripts directly on the EC2 instance e.g.:
+    - name: Create a new file on the EC2 instance with "hello-world"
+      run: |
+        scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@35.157.121.146:/home/ec2-user/
+        scp -o StrictHostKeyChecking=no script.sh ec2-user@35.157.121.146:/home/ec2-user/
+        ssh -o StrictHostKeyChecking=no ec2-user@$35.157.121.146 << 'EOF'
+          chmod +x /home/ec2-user/script.sh
+          bash ./script.sh ${{ steps.bump_version.outputs.new_version }}     
+        EOF
