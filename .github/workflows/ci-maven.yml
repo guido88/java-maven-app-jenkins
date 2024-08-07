@@ -64,13 +64,15 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.AWS_SSH_KEY }}
 
-    - name: Print EC2 Public IP
-      run: echo "EC2 Public IP ${{ secrets.EC2_PUBLIC_IP }}"
-
-
     - name: Copy files to EC2
       run: |
         scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@35.157.121.146:/home/ec2-user/
         scp -o StrictHostKeyChecking=no script.sh ec2-user@35.157.121.146:/home/ec2-user/
      
- 
+    - name: Execute files on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ec2-user@$35.157.121.146 << 'EOF'
+          chmod +x /home/ec2-user/script.sh
+          bash ./script.sh ${{ steps.bump_version.outputs.new_version }}     
+        EOF
+    
