@@ -62,25 +62,7 @@ jobs:
           git push
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.AWS_SSH_KEY }}
-
-    - name: Copy files to EC2
-      run: |
-        scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@35.157.121.146:/home/ec2-user/
-        scp -o StrictHostKeyChecking=no script.sh ec2-user@35.157.121.146:/home/ec2-user/
-     
-    - name: Execute files on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@$35.157.121.146 << 'EOF'
-          chmod +x /home/ec2-user/script.sh
-          bash ./script.sh ${{ steps.bump_version.outputs.new_version }}     
-        EOF
-
-  
+        
     - name: Setup SSH for EC2
       uses: omarhosny206/setup-ssh-for-ec2@v1.0.0
       with:
@@ -89,9 +71,9 @@ jobs:
     # then you can run commands/scripts directly on the EC2 instance e.g.:
     - name: Create a new file on the EC2 instance with "hello-world"
       run: |
-        scp -o StrictHostKeyChecking=no docker-compose.yaml ec2-user@35.157.121.146:/home/ec2-user/
-        scp -o StrictHostKeyChecking=no script.sh ec2-user@35.157.121.146:/home/ec2-user/
-        ssh -o StrictHostKeyChecking=no ec2-user@$35.157.121.146 << 'EOF'
+        scp -o StrictHostKeyChecking=no docker-compose.yaml $EC2_USERNAME@$EC2_URL:/home/ec2-user/
+        scp -o StrictHostKeyChecking=no script.sh $EC2_USERNAME@$EC2_URL:/home/ec2-user/
+        ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_URL << 'EOF'
           chmod +x /home/ec2-user/script.sh
           bash ./script.sh ${{ steps.bump_version.outputs.new_version }}     
         EOF
